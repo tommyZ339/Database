@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Update of Parking Manage for Waiter</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename ='css/styles.css') }}" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+            crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="/">酒店管理系统</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="sb-sidenav-dark"><a class="sb-sidenav-dark" style="text-decoration: none" href="/logout">退出登录</a>   | 
+        <a class="sb-sidenav-dark" style="text-decoration: none" href="/waiter_passwordChange">修改密码</a></div>
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/manager_login">经理</a></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li><a class="dropdown-item" href="/waiter_login">前台</a></li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li><a class="dropdown-item" href="/guest_homePage">顾客</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">for Customer</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+                       aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fa fa-address-book"></i></div>
+                        顾客信息
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="/waiter_guestInformation_show">展示顾客基本信息</a>
+                            <a class="nav-link" href="/waiter_guestInformation_insert">录入顾客基本信息</a>
+                            <a class="nav-link" href="/waiter_guestInformation_delete">注销顾客基本信息</a>
+                            <a class="nav-link" href="/waiter_guestInformation_update">修改顾客基本信息</a>
+                            <a class="nav-link" href="/waiter_guestInformation_query">根据ID查询</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                       aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fa fa-check-square"></i></div>
+                        办理住房事宜
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion">
+                            <a class="nav-link" href="/waiter_guestCheckin_show">展示所有入住信息</a>
+                            <a class="nav-link" href="/waiter_guestCheckin_insert">登记入住信息</a>
+                            <a class="nav-link" href="/waiter_guestCheckin_delete">删除入住信息</a>
+                            <a class="nav-link" href="/waiter_guestCheckin_update">修改入住信息</a>
+                            <a class="nav-link" href="/waiter_guestCheckin_query">根据ID查询</a>
+                            <a class="nav-link" href="/waiter_guestCheckin_apart">办理离店</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseRoom" aria-expanded="false" aria-controls="collapseRoom">
+                        <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
+                        房间信息
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseRoom" aria-labelledby="headingSix" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion">
+                            <a class="nav-link" href="/waiter_room_show">展示房间信息</a>
+                            <a class="nav-link" href="/waiter_room_query">根据房号查询</a>
+                        </nav>
+                    </div>
+
+
+                    <div class="sb-sidenav-menu-heading">for Parking</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCar"
+                       aria-expanded="false" aria-controls="collapseCar">
+                        <div class="sb-nav-link-icon"><i class="fa fa-bus"></i></div>
+                        车辆信息
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseCar" aria-labelledby="headingThree"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion">
+                            <a class="nav-link" href="/waiter_carInformation_show">展示车辆信息</a>
+                            <a class="nav-link" href="/waiter_carInformation_insert">录入车辆信息</a>
+                            <a class="nav-link" href="/waiter_carInformation_delete">注销车辆信息</a>
+                            <a class="nav-link" href="/waiter_carInformation_update">改变车辆颜色</a>
+                            <a class="nav-link" href="/waiter_carInformation_query">根据车牌号查询</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseStatus"
+                       aria-expanded="false" aria-controls="collapseStatus">
+                        <div class="sb-nav-link-icon"><i class="fa fa-inbox"></i></div>
+                        停车场
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseStatus" aria-labelledby="headingFour"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion">
+                            <a class="nav-link" href="/waiter_parkingStatus_show">展示停车场信息</a>
+                            <a class="nav-link" href="/waiter_parkingStatus_insert">新增车位</a>
+                            <a class="nav-link" href="/waiter_parkingStatus_delete">停用车位</a>
+                            <a class="nav-link" href="/waiter_parkingStatus_update">更改车位状态</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseManage"
+                       aria-expanded="false" aria-controls="collapseManage">
+                        <div class="sb-nav-link-icon"><i class="fa fa-list-alt"></i></div>
+                        停车信息
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseManage" aria-labelledby="headingFive"
+                         data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion">
+                            <a class="nav-link" href="/waiter_parkingManage_show">展示停车信息</a>
+                            <a class="nav-link" href="/waiter_parkingManage_insert">录入停车信息</a>
+                            <a class="nav-link" href="/waiter_parkingManage_delete">注销停车信息</a>
+                            <a class="nav-link" href="/waiter_parkingManage_update">修改停车信息</a>
+                            <a class="nav-link" href="/waiter_parkingManage_query">根据车牌号查询</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">身份是:</div>
+                前台
+            </div>
+        </nav>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">停车信息</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item">酒店管理系统</li>
+                    <li class="breadcrumb-item active">停车信息</li>
+                    <li class="breadcrumb-item active">修改</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        该页面用于更新车场管理信息，通过填写车牌号、车位号、停入时间和车主联系方式并提交来更新信息。
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Update
+                    </div>
+                    <div class="card-body">
+                        <form class="form-group" action="/waiter_parkingManage_update" method="post">
+                            <a>
+                                <label class="control-label">车牌号</label>
+                                <input id="Cid" name="Cid" class="form-control" type="text" placeholder="请输入车牌号"/>
+                            </a>
+                            <a>
+                                <label class="control-label">车位号</label>
+                                <input id="Cpos" name="Cpos" class="form-control" type="text" placeholder="请输入车位号"/>
+                            </a>
+                            <!--
+                            <a>
+                                <label class="control-label">停入时间</label>
+                                <input id="Itime" name="Itime" class="form-control" type="text" placeholder="请输入停入时间"/>
+                            </a>
+                            -->
+                            <a>
+                                <label class="control-label">联系方式</label>
+                                <input id="Gnum" name="Gnum" class="form-control" type="text" placeholder="请输入联系方式"/>
+                            </a>
+                            <br>
+                            <a>
+                                <button type="submit" value="submit" class="btn btn-info btn-lg" style="float: right">
+                                    更新
+                                </button>
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; database G44 2021</div>
+                    <div>
+                        <a href="#"  style="text-decoration: none" >回到顶部</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename ='js/scripts.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename ='js/datatables-simple-demo.js') }}"></script>
+</body>
+</html>
